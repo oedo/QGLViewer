@@ -2,7 +2,7 @@
 #define QGLVIEWER_H
 
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 
@@ -34,7 +34,7 @@ struct AxesConfig {
 };
 
 
-class QGLViewer : public QOpenGLWidget, protected QOpenGLFunctions
+class QGLViewer : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
   Q_OBJECT
 public:

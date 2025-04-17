@@ -40,6 +40,8 @@ QGLViewer::QGLViewer(QWidget *parent)
   QSurfaceFormat format;
   format.setDepthBufferSize(24);
   format.setSamples(8);
+  format.setVersion(3, 3);  // OpenGL 3.3 Core Profileを指定
+  format.setProfile(QSurfaceFormat::CoreProfile);  // Core Profileを使用
   setFormat(format);
 }
 
@@ -117,10 +119,11 @@ static const char *fragmentShaderSource = R"(
 
 
 void QGLViewer::initializeGL() {
-  initializeOpenGLFunctions();
+  initializeOpenGLFunctions();  // 変更なし
 
   glClearColor(0, 0, 0, 1);
-  glDepthFunc(GL_LESS);
+  glEnable(GL_DEPTH_TEST);  // 明示的に有効化
+  glEnable(GL_CULL_FACE);   // 明示的に有効化
 
   m_program = new QOpenGLShaderProgram;
   m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
@@ -133,12 +136,8 @@ void QGLViewer::initializeGL() {
 
   m_mvpMatrixLoc = m_program->uniformLocation("mvpMatrix");
 
-  // Create a vertex array object. In OpenGL ES 2.0 and OpenGL 2.x
-  // implementations this is optional and support may not be present
-  // at all. Nonetheless the below code works in all cases and makes
-  // sure there is a VAO when one is needed.
   if (!m_trisVao.create() || !m_linesVao.create())
-    std::cerr << "ERROR: faild to create vertex array object" << std::endl;
+    std::cerr << "ERROR: failed to create vertex array object" << std::endl;
 
   if (!m_trisVbo.create() || !m_linesVbo.create())
     std::cerr << "ERROR: failed to create vertex buffer object" << std::endl;
@@ -366,7 +365,7 @@ void QGLViewer::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void QGLViewer::wheelEvent(QWheelEvent *event) {
-  QPoint numDeg = event->angleDelta();
+  QPoint numDeg = event->angleDelta();  // 変更なし
 
   if (numDeg.isNull())
     return;

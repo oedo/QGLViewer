@@ -1,9 +1,8 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.14)
 
 project(QGLViewer)
 
-find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets REQUIRED)
-
+find_package(Qt6 COMPONENTS Core Gui OpenGLWidgets REQUIRED)
 
 SET(SOURCES
   camera.cpp
@@ -14,18 +13,15 @@ SET(SOURCES
   qglviewer.h
 )
 
-
 add_executable(QGLViewerExample main.cpp)
 target_link_libraries(QGLViewerExample ${PROJECT_NAME})
-
 
 add_library(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
-  Qt5::Core
-  Qt5::Gui
-  Qt5::OpenGL
-  Qt5::Widgets
+  Qt6::Core
+  Qt6::Gui
+  Qt6::OpenGLWidgets
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
